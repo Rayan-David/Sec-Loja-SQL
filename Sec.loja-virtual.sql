@@ -62,10 +62,27 @@ GRANT INSERT ON pedido TO 'site_loja'@'localhost';
 GRANT SELECT ON cliente TO 'suporte'@'localhost';
 GRANT SELECT ON pedido TO 'suporte'@'localhost';
 GRANT UPDATE ON cliente TO 'suporte'@'localhost';
+GRANT UPDATE ON pedido TO 'suporte'@'localhost';
+
+GRANT SELECT ON * TO 'financeiro'@'localhost';
+
+REVOKE UPDATE ON loja_online_seg.cliente FROM 'suporte'@'localhost';
 
 -- 4. Mostre o SHOW GRANTS de cada usuário e confira com a tabela de perfis.
 SHOW GRANTS FOR 'site_loja'@'localhost';
 SHOW GRANTS FOR 'suporte'@'localhost';
 
 -- 5.Criar a conexão do site_loja e testar
-SELECT * FROM produto;
+SELECT * FROM pedido;
+
+-- 8. REMOVENDO PERMISSOES
+REVOKE INSERT ON loja_online_seg.pedido FROM 'site_loja'@'localhost';
+SHOW GRANTS FOR 'site_loja'@'localhost';
+
+-- BLOQUENDO USUARIO
+ALTER USER 'financeiro'@'localhost' ACCOUNT LOCK;
+
+-- APAGAR TODOS USUARIOS E LISTAR OS USUARIOS
+DROP USER 'site_loja'@'localhost', 'suporte'@'localhost', 'financeiro'@'localhost';
+
+SELECT user, host FROM mysql.user;
